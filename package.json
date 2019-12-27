@@ -1,0 +1,27 @@
+{
+  "name": "codecofferplusplus",
+  "version": "1.0.0",
+  "description": "command line interface for snippet sharing project Code Coffer",
+  "main": "index.js",
+  "scripts": {},
+  "bin": {
+    "configure": "./implementations/configureCodeCofferUser.js",
+    "import": "./implementations/callToCodeCoffer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbhouse/CodeCofferCli.git"
+  },
+  "keywords": [
+    "code sharing"
+  ],
+  "author": "Joe Moorhouse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jbhouse/CodeCofferCli/issues"
+  },
+  "homepage": "https://github.com/jbhouse/CodeCofferCli#readme",
+  "dependencies": {
+    "clipboardy": "^2.1.0"
+  }
+}
