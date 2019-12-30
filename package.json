@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/jbhouse/CodeCofferCli#readme",
   "dependencies": {
-    "clipboardy": "^2.1.0"
+    "clipboardy": "^2.1.0",
+    "opn": "^6.0.0"
   }
 }

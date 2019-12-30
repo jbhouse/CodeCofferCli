@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 "use strict";
 const projectBaseDirectory = __dirname.split("\\implementations")[0];
-const snippetBaseDirectory = '.\\snippets\\';
+const snippetBaseDirectory = '\\snippets\\';
 const userConfigFilePath = projectBaseDirectory + "\\" + "userConfig.json";
 const userConfiguration = require(userConfigFilePath);
+const browserOpener = require('opn');
 const snippet_1 = require("../models/snippet");
 const clipboardy = require('clipboardy');
+const baseUrl = 'https://jayckers.com/snippet/en/#/import/';
 const https = require('https');
 const fs = require('fs');
 
 function openFileInEditor(snippet) {
     let filePaths = transformSupplementNamesToFilePaths(snippet).join(" ");
     require('child_process').exec(userConfiguration.defaultEditor + " " + filePaths);
+}
+function openFileInBrowser(snippetId) {
+    return () => browserOpener(baseUrl + snippetId);
 }
 function transformSupplementNamesToFilePaths(snippet) {
     const snippetDirectory = projectBaseDirectory + snippetBaseDirectory + snippet.title;
@@ -22,7 +27,6 @@ function transformSupplementNamesToFilePaths(snippet) {
 function saveFile() {
     return (snippet) => {
         let snippetDirectory = projectBaseDirectory + snippetBaseDirectory + snippet.title;
-        console.log(snippetDirectory);
         if (!fs.existsSync(snippetDirectory)) {
             fs.mkdirSync(snippetDirectory, { recursive: true });
             snippet.supplements.forEach(supplement => {
@@ -76,6 +80,8 @@ function getSnippet(url, callbacks) {
     let callbacks = [saveFile(fs)];
     if (userConfiguration.openFilesOnImport) {
         callbacks.push(openFileInEditor);
+    } else {
+        callbacks.push(openFileInBrowser(id));
     }
     if (userConfiguration.copyContentsToClipBoard) {
         callbacks.push(saveContentToClipboard);
