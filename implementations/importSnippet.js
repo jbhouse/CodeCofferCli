@@ -8,6 +8,7 @@ const browserOpener = require('opn');
 const snippet_1 = require("../models/snippet");
 const clipboardy = require('clipboardy');
 const baseUrl = 'https://jayckers.com/snippet/en/#/import/';
+const readline = require('readline');
 const https = require('https');
 const fs = require('fs');
 
@@ -29,6 +30,7 @@ function saveFile() {
         let snippetDirectory = projectBaseDirectory + snippetBaseDirectory + snippet.title;
         if (!fs.existsSync(snippetDirectory)) {
             fs.mkdirSync(snippetDirectory, { recursive: true });
+            fs.writeFileSync(snippetDirectory + "\\" + snippet.title + ".json", JSON.stringify(snippet, null, 2));
             snippet.supplements.forEach(supplement => {
                 let fileName = supplement.name + '.' + supplement.language;
                 fs.writeFileSync(snippetDirectory + "\\" + fileName, supplement.code);
@@ -77,7 +79,7 @@ function getSnippet(url, callbacks) {
 (function openSnippetFromUrl(userInput, fs) {
     const id = userInput.split("import/")[1];
     const url = "https://jayman-gameserver.herokuapp.com/conversations/" + id + "?startingIndex=0";
-    let callbacks = [saveFile(fs)];
+    let callbacks = [saveFile()];
     if (userConfiguration.openFilesOnImport) {
         callbacks.push(openFileInEditor);
     } else {

@@ -34,6 +34,14 @@ const assignDefaultEditorPath = () => {
         });
     });
 };
+const openSnippetBeforeExporting = () => {
+    return new Promise((resolve, reject) => {
+        rl.question("\nwould you like to open snippets locally before exporting them?: (Y/N) \n" + "Currently " + userConfiguration.openSnippetBeforeExporting + ": ", (answer) => {
+            updateUserConfig(answer, 'openSnippetBeforeExporting');
+            resolve();
+        });
+    });
+};
 function updateUserConfig(answer, userPropertyToUpdate) {
     if (answer.toLocaleLowerCase() == 'y' || answer.toLocaleLowerCase() == 'yes') {
         userConfiguration[userPropertyToUpdate] = true;
@@ -48,6 +56,9 @@ function updateUserConfig(answer, userPropertyToUpdate) {
     await openFilesOnImport();
     await copyToClipboard();
     await assignDefaultEditorPath();
+    if (userConfiguration.defaultEditor != '') {
+        await openSnippetBeforeExporting();
+    }
     rl.close();
     userConfiguration.userIsConfigured = true;
     fs.writeFileSync(userConfigFilePath, JSON.stringify(userConfiguration, null, 2));

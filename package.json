@@ -6,7 +6,8 @@
   "scripts": {},
   "bin": {
     "configure": "./implementations/configureCodeCofferUser.js",
-    "import": "./implementations/callToCodeCoffer.js"
+    "import": "./implementations/importSnippet.js",
+    "export": "./implementations/exportSnippet.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "homepage": "https://github.com/jbhouse/CodeCofferCli#readme",
   "dependencies": {
     "clipboardy": "^2.1.0",
-    "opn": "^6.0.0"
+    "opn": "^6.0.0",
+    "request": "^2.88.0"
   }
 }

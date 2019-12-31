@@ -1,6 +1,7 @@
 {
   "openFilesOnImport": false,
-  "copyContentsToClipBoard": true,
+  "copyContentsToClipBoard": false,
   "userIsConfigured": false,
+  "openSnippetBeforeExporting": false,
   "defaultEditor": ""
 }
