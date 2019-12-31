@@ -36,7 +36,7 @@ const assignDefaultEditorPath = () => {
 };
 const openSnippetBeforeExporting = () => {
     return new Promise((resolve, reject) => {
-        rl.question("\nwould you like to open snippets locally before exporting them?: (Y/N) \n" + "Currently " + userConfiguration.openSnippetBeforeExporting + ": ", (answer) => {
+        rl.question("\nWould you like to open snippets locally before exporting them?: (Y/N) \n" + "Currently " + userConfiguration.openSnippetBeforeExporting + ": ", (answer) => {
             updateUserConfig(answer, 'openSnippetBeforeExporting');
             resolve();
         });
