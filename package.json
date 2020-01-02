@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "command line interface for snippet sharing project Code Coffer",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "format": "pretty-quick --staged"
+  },
   "bin": {
     "configure": "./implementations/configureCodeCofferUser.js",
     "import": "./implementations/importSnippet.js",
-    "export": "./implementations/exportSnippet.js"
+    "export": "./implementations/exportSnippet.js",
+    "search": "./implementations/searchSnippet.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +27,12 @@
   "homepage": "https://github.com/jbhouse/CodeCofferCli#readme",
   "dependencies": {
     "clipboardy": "^2.1.0",
+    "inquirer": "^7.0.1",
     "opn": "^6.0.0",
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1"
   }
 }

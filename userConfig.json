@@ -3,5 +3,23 @@
   "copyContentsToClipBoard": false,
   "userIsConfigured": false,
   "openSnippetBeforeExporting": false,
-  "defaultEditor": ""
+  "defaultEditor": "",
+  "choices": [
+    {
+      "name": "title",
+      "checked": false
+    },
+    {
+      "name": "tags",
+      "checked": false
+    },
+    {
+      "name": "code",
+      "checked": false
+    },
+    {
+      "name": "notes",
+      "checked": false
+    }
+  ]
 }
