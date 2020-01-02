@@ -29,7 +29,9 @@ const copyToClipboard = () => {
 const assignDefaultEditorPath = () => {
     return new Promise((resolve, reject) => {
         rl.question("\nYour current editor for opening snippets is: " + userConfiguration.defaultEditor + "\n" + "define the path to the code editor we should open imported/existing snippets in: ", (answer) => {
-            userConfiguration.defaultEditor = answer;
+            if (answer != '' && answer != undefined) {
+                userConfiguration.defaultEditor = answer;
+            }
             resolve();
         });
     });
