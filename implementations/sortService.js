@@ -1,17 +1,17 @@
 module.exports = {
-  sortSnippets: snippets => snippets.sort((a, b) => this.compareSnippets(a, b))
+  sortSnippets: snippets => snippets.sort((a, b) => compareSnippets(a, b))
 };
 
 function compareSnippets(a, b) {
-  let result = this.compareShowing(a, b);
+  let result = compareShowing(a, b);
   if (result === 0) {
-    result = this.compareIndices(a, b);
+    result = compareIndices(a, b);
   }
   if (result === 0) {
-    result = this.compareTimestamps(a, b);
+    result = compareTimestamps(a, b);
   }
   if (result === 0) {
-    result = this.compareTitles(a, b);
+    result = compareTitles(a, b);
   }
   return result;
 }

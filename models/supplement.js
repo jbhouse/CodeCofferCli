@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const language_enum_1 = require("./language.enum");
 class Supplement {
-    constructor(name = '', language = language_enum_1.Language.TEXT, code = '', notes = '') {
+    constructor(name = '', code = '', notes = '', language = language_enum_1.Language.TEXT) {
         this.name = name;
         this.language = language;
         this.code = code;

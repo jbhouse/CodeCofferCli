@@ -1,6 +1,6 @@
 {
   "name": "codecofferplusplus",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "command line interface for snippet sharing project Code Coffer",
   "main": "index.js",
   "scripts": {

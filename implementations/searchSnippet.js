@@ -68,30 +68,8 @@ function createSnippetFromDirectory(directoryName) {
   return Snippet.createValidSnippet(JSON.parse(fs.readFileSync(filePath)));
 }
 
-function isInCode(term, snippet) {
-  return snippet.supplements
-    .map(supplement => supplement.code.toLocaleUpperCase())
-    .some(code => code.includes(term));
-}
-
-function isInNotes(term, snippet) {
-  return snippet.supplements
-    .map(supplement => supplement.notes.toLocaleUpperCase())
-    .some(notes => notes.includes(term));
-}
-
-function isInTags(term, snippet) {
-  return this.getTags(snippet.tags.toLocaleUpperCase()).some(
-    tag => tag === term
-  );
-}
-
-function getTags(tags) {
-  return tags.split(",").map(s => s.trim());
-}
-
 async function search(searchParams, snipList) {
-  const snippets = snipList;
+  let snippets = snipList;
   const query = searchParams.query.trim();
   const searchResultsMap = new Map();
   const terms = query
@@ -111,13 +89,17 @@ async function search(searchParams, snipList) {
         ) {
           score++;
         }
-        if (searchParams.tags && this.isInTags(term, snippet)) {
+        if (searchParams.tags && snippet.tags.toLocaleUpperCase().split(",").map(s => s.trim()).some(tag => tag === term)) {
           score++;
         }
-        if (searchParams.code && this.isInCode(term, snippet)) {
-          score++;
+        if (searchParams.code && snippet.supplements
+          .map(supplement => supplement.code.toLocaleUpperCase())
+          .some(code => code.includes(term))) {
+              score++;
         }
-        if (searchParams.notes && this.isInNotes(term, snippet)) {
+        if (searchParams.notes && snippet.supplements
+    .map(supplement => supplement.notes.toLocaleUpperCase())
+    .some(notes => notes.includes(term))) {
           score++;
         }
         searchResultsMap.set(snippet, score);
@@ -146,6 +128,10 @@ async function search(searchParams, snipList) {
     });
     await promptForEditorPath(rl);
     rl.close();
+  }
+  snippets = snippets.filter(snip => snip.showing);
+  if (snippets.length === 0) {
+    console.log("no results were found for that search");
   }
   promptUserToSelectSnippetsToOpen(snippets);
 }

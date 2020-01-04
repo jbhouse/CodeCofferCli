@@ -6,6 +6,7 @@ const userConfigFilePath = projectBaseDirectory + "\\" + "userConfig.json";
 const userConfiguration = require(userConfigFilePath);
 const browserOpener = require('opn');
 const snippet_1 = require("../models/snippet");
+const supplement_1 = require("../models/supplement");
 const clipboardy = require('clipboardy');
 const baseUrl = 'https://jayckers.com/snippet/en/#/import/';
 const readline = require('readline');
@@ -28,6 +29,7 @@ function transformSupplementNamesToFilePaths(snippet) {
 function saveFile() {
     return (snippet) => {
         let snippetDirectory = projectBaseDirectory + snippetBaseDirectory + snippet.title;
+
         if (!fs.existsSync(snippetDirectory)) {
             fs.mkdirSync(snippetDirectory, { recursive: true });
             fs.writeFileSync(snippetDirectory + "\\" + snippet.title + ".json", JSON.stringify(snippet, null, 2));
@@ -37,7 +39,7 @@ function saveFile() {
             });
         }
         else {
-            fs.readdirSync(snippetDirectory).forEach((file) => {
+            fs.readdirSync(snippetDirectory).filter(fileName => !fileName.includes(".json")).forEach((file) => {
                 fs.readFile(snippetDirectory + "\\" + file, 'utf8', function (err, contents) {
                     let incomingSnippetContents = snippet.supplements.filter(supplement => supplement.name + '.' + supplement.language === file)[0].code;
                     if (contents != incomingSnippetContents) {
@@ -81,9 +83,11 @@ function getSnippet(url, callbacks) {
     const url = "https://jayman-gameserver.herokuapp.com/conversations/" + id + "?startingIndex=0";
     let callbacks = [saveFile()];
     if (userConfiguration.openFilesOnImport) {
-        callbacks.push(openFileInEditor);
-    } else {
-        callbacks.push(openFileInBrowser(id));
+        if (userConfiguration.defaultEditor != '') {
+            callbacks.push(openFileInEditor);
+        } else {
+            callbacks.push(openFileInBrowser(id));
+        }
     }
     if (userConfiguration.copyContentsToClipBoard) {
         callbacks.push(saveContentToClipboard);

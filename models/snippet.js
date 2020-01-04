@@ -13,14 +13,32 @@ class Snippet {
         this.supplements = supplements;
     }
     static createValidSnippet(snippet) {
-        snippet.id = snippet.id || String(Math.floor(Math.random() * 1000000000) + 1);
-        snippet.timestamp = snippet.timestamp || Date.now();
-        snippet.title = snippet.title || '';
-        snippet.index = snippet.index || '';
-        snippet.tags = snippet.tags || '';
-        snippet.showing = snippet.showing === true || snippet.showing === false ? snippet.showing : false;
-        snippet.pinned = snippet.pinned === true || snippet.pinned === false ? snippet.pinned : false;
-        snippet.supplements = snippet.supplements || [new supplement_1.Supplement()];
+
+        if (snippet.code) {
+            snippet.id = snippet.id || String(Math.floor(Math.random() * 1000000000) + 1);
+            snippet.timestamp = snippet.timestamp || Date.now();
+            snippet.title = snippet.title || '';
+            snippet.index = snippet.index || '';
+            snippet.tags = snippet.tags || '';
+            snippet.showing = snippet.showing === true || snippet.showing === false ? snippet.showing : false;
+            snippet.pinned = snippet.pinned === true || snippet.pinned === false ? snippet.pinned : false;
+            snippet.supplements = [{name: "supplement1", code: snippet.code, notes: snippet.notes, language: 'txt'}, ...snippet.supplements]
+            let i = 1;
+            snippet.supplements.map(supplement => {
+                supplement.name = "supplement"+ i;
+                supplement.language = 'txt'
+                i++;
+            });
+        }else {
+            snippet.id = snippet.id || String(Math.floor(Math.random() * 1000000000) + 1);
+            snippet.timestamp = snippet.timestamp || Date.now();
+            snippet.title = snippet.title || '';
+            snippet.index = snippet.index || '';
+            snippet.tags = snippet.tags || '';
+            snippet.showing = snippet.showing === true || snippet.showing === false ? snippet.showing : false;
+            snippet.pinned = snippet.pinned === true || snippet.pinned === false ? snippet.pinned : false;
+            snippet.supplements = snippet.supplements || [new supplement_1.Supplement()];
+        }
         return snippet;
     }
     static createValidSnippets(snippets) {
