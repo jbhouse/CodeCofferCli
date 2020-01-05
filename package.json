@@ -1,16 +1,16 @@
 {
   "name": "codecofferplusplus",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "command line interface for snippet sharing project Code Coffer",
   "main": "index.js",
   "scripts": {
     "format": "pretty-quick --staged"
   },
   "bin": {
-    "configure": "./implementations/configureCodeCofferUser.js",
-    "import": "./implementations/importSnippet.js",
-    "export": "./implementations/exportSnippet.js",
-    "search": "./implementations/searchSnippet.js"
+    "cc configure": "./implementations/configureCodeCofferUser.js",
+    "cc import": "./implementations/importSnippet.js",
+    "cc export": "./implementations/exportSnippet.js",
+    "cc search": "./implementations/searchSnippet.js"
   },
   "repository": {
     "type": "git",
