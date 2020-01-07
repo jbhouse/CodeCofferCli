@@ -1,13 +1,13 @@
 {
-  "openFilesOnImport": false,
+  "openFilesOnImport": true,
   "copyContentsToClipBoard": false,
   "userIsConfigured": false,
   "openSnippetBeforeExporting": false,
-  "defaultEditor": "",
+  "defaultEditor": "C:\\S\\code\\Code.exe",
   "choices": [
     {
       "name": "title",
-      "checked": false
+      "checked": true
     },
     {
       "name": "tags",

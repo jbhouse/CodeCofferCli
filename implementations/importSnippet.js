@@ -1,17 +1,33 @@
-#!/usr/bin/env node
-"use strict";
 const projectBaseDirectory = __dirname.split("\\implementations")[0];
 const snippetBaseDirectory = '\\snippets\\';
 const userConfigFilePath = projectBaseDirectory + "\\" + "userConfig.json";
 const userConfiguration = require(userConfigFilePath);
 const browserOpener = require('opn');
 const snippet_1 = require("../models/snippet");
-const supplement_1 = require("../models/supplement");
 const clipboardy = require('clipboardy');
 const baseUrl = 'https://jayckers.com/snippet/en/#/import/';
 const readline = require('readline');
 const https = require('https');
 const fs = require('fs');
+
+module.exports = {
+    importSnippet: (userInput) => {
+        const id = userInput.split("import/")[1];
+        const url = "https://jayman-gameserver.herokuapp.com/conversations/" + id + "?startingIndex=0";
+        let callbacks = [saveFile()];
+        if (userConfiguration.openFilesOnImport) {
+            if (userConfiguration.defaultEditor != '') {
+                callbacks.push(openFileInEditor);
+            } else {
+                callbacks.push(openFileInBrowser(id));
+            }
+        }
+        if (userConfiguration.copyContentsToClipBoard) {
+            callbacks.push(saveContentToClipboard);
+        }
+        getSnippet(url, callbacks);
+    }
+}
 
 function openFileInEditor(snippet) {
     let filePaths = transformSupplementNamesToFilePaths(snippet).join(" ");
@@ -78,19 +94,19 @@ function getSnippet(url, callbacks) {
         console.log("Error: " + err.message);
     });
 }
-(function openSnippetFromUrl(userInput, fs) {
-    const id = userInput.split("import/")[1];
-    const url = "https://jayman-gameserver.herokuapp.com/conversations/" + id + "?startingIndex=0";
-    let callbacks = [saveFile()];
-    if (userConfiguration.openFilesOnImport) {
-        if (userConfiguration.defaultEditor != '') {
-            callbacks.push(openFileInEditor);
-        } else {
-            callbacks.push(openFileInBrowser(id));
-        }
-    }
-    if (userConfiguration.copyContentsToClipBoard) {
-        callbacks.push(saveContentToClipboard);
-    }
-    getSnippet(url, callbacks);
-})(process.argv.slice(2).join(" "))
+// (function openSnippetFromUrl(userInput) {
+//     const id = userInput.split("import/")[1];
+//     const url = "https://jayman-gameserver.herokuapp.com/conversations/" + id + "?startingIndex=0";
+//     let callbacks = [saveFile()];
+//     if (userConfiguration.openFilesOnImport) {
+//         if (userConfiguration.defaultEditor != '') {
+//             callbacks.push(openFileInEditor);
+//         } else {
+//             callbacks.push(openFileInBrowser(id));
+//         }
+//     }
+//     if (userConfiguration.copyContentsToClipBoard) {
+//         callbacks.push(saveContentToClipboard);
+//     }
+//     getSnippet(url, callbacks);
+// })(process.argv.slice(2).join(" "))

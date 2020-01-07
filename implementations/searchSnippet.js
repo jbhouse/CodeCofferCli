@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const projectBaseDirectory = __dirname.split("\\implementations")[0];
 const snippetBaseDirectory = "\\snippets\\";
 const snippetsDirectory = projectBaseDirectory + snippetBaseDirectory;
@@ -8,7 +7,6 @@ const Snippet = require("../models/snippet").Snippet;
 const inquirer = require("inquirer");
 const userConfigFilePath = projectBaseDirectory + "\\" + "userConfig.json";
 const userConfig = require(userConfigFilePath);
-const userInput = process.argv.slice(2).join(",");
 const sortService = require("./sortService");
 const readline = require("readline");
 const promptForEditorPath = rl => {
@@ -27,40 +25,44 @@ const promptForEditorPath = rl => {
   });
 };
 
-let snippetList = snippetsNames.map(snippetName =>
-  createSnippetFromDirectory(snippetName)
-);
+module.exports = {
+  searchSnippet: (userInput) => {
+    let snippetList = snippetsNames.map(snippetName =>
+      createSnippetFromDirectory(snippetName)
+    );
 
-inquirer
-  .prompt([
-    {
-      name: "searchOptions",
-      message: "\nWhat would you like to search on?\nPress enter to confirm",
-      type: "checkbox",
-      choices: userConfig.choices
-    }
-  ])
-  .then(answers => {
-    userConfig.choices = [
-      { name: "title", checked: false },
-      { name: "tags", checked: false },
-      { name: "code", checked: false },
-      { name: "notes", checked: false }
-    ];
-    answers.searchOptions.forEach(answer => {
-      userConfig.choices.filter(
-        searchChoice => searchChoice.name === answer
-      )[0].checked = true;
-    });
-    fs.writeFileSync(userConfigFilePath, JSON.stringify(userConfig, null, 2));
+    inquirer
+      .prompt([
+        {
+          name: "searchOptions",
+          message: "\nWhat would you like to search on?\nPress enter to confirm",
+          type: "checkbox",
+          choices: userConfig.choices
+        }
+      ])
+      .then(answers => {
+        userConfig.choices = [
+          { name: "title", checked: false },
+          { name: "tags", checked: false },
+          { name: "code", checked: false },
+          { name: "notes", checked: false }
+        ];
+        answers.searchOptions.forEach(answer => {
+          userConfig.choices.filter(
+            searchChoice => searchChoice.name === answer
+          )[0].checked = true;
+        });
+        fs.writeFileSync(userConfigFilePath, JSON.stringify(userConfig, null, 2));
 
-    let searchParams = { query: userInput };
-    userConfig.choices.forEach(choice => {
-      searchParams[choice.name] = choice.checked;
-    });
+        let searchParams = { query: userInput };
+        userConfig.choices.forEach(choice => {
+          searchParams[choice.name] = choice.checked;
+        });
 
-    search(searchParams, snippetList);
-  });
+        search(searchParams, snippetList);
+      });
+  }
+}
 
 function createSnippetFromDirectory(directoryName) {
   let filePath =

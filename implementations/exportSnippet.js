@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-"use strict";
 const exportUrl =
   "https://jayman-gameserver.herokuapp.com/conversations/create";
 const projectBaseDirectory = __dirname.split("\\implementations")[0];
@@ -20,6 +18,23 @@ const openSnippetBeforeExporting = rl2 => {
     });
   });
 };
+
+module.exports = {
+  exportSnippet: async(userInput) => {
+      let snip;
+      if (
+        userInput != "" &&
+        snippetsNames.filter(snippet => snippet == userInput).length === 1
+      ) {
+        snip = await createSnippetFromDirectory(userInput);
+        exportSnippet(snip);
+      } else {
+        snip = await createSnippetFromList();
+      }
+
+  }
+}
+
 const openSnippetsFromList = (rl, snippetList) => {
   return new Promise((resolve, reject) => {
     rl.question(
@@ -178,16 +193,3 @@ function exportSnippet(snippet) {
     }
   );
 }
-
-(async function() {
-  let snip;
-  if (
-    userInput != "" &&
-    snippetsNames.filter(snippet => snippet == userInput).length === 1
-  ) {
-    snip = await createSnippetFromDirectory(userInput);
-    exportSnippet(snip);
-  } else {
-    snip = await createSnippetFromList();
-  }
-})();

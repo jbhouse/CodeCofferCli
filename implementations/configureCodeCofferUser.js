@@ -1,9 +1,7 @@
-#!/usr/bin/env node
-"use strict";
 const fs = require('fs');
 const readline = require('readline');
 const projectBaseDirectory = __dirname.split("\\implementations")[0];
-const userConfigFilePath = projectBaseDirectory + "\\" + "userConfig.json";
+const userConfigFilePath = projectBaseDirectory + "\\userConfig.json";
 const userConfiguration = require(userConfigFilePath);
 
 const rl = readline.createInterface({
