@@ -26,7 +26,7 @@ class Snippet {
             let i = 1;
             snippet.supplements.map(supplement => {
                 supplement.name = "supplement"+ i;
-                supplement.language = 'txt'
+                supplement.language = 'txt';
                 i++;
             });
         }else {

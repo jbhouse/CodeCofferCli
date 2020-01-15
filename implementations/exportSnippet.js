@@ -11,6 +11,7 @@ const userInput = process.argv.slice(2).join(" ");
 const snippetsNames = fs.readdirSync(snippetsDirectory);
 const userConfigFilePath = projectBaseDirectory + "\\" + "userConfig.json";
 const userConfig = require(userConfigFilePath);
+const clipboardy = require('clipboardy');
 const openSnippetBeforeExporting = rl2 => {
   return new Promise((resolve, reject) => {
     rl2.question("", answer => {
@@ -187,6 +188,7 @@ function exportSnippet(snippet) {
         console.log(
           "https://jayckers.com/snippet/en/#/import/" + body.conversationId
         );
+        clipboardy.writeSync("https://jayckers.com/snippet/en/#/import/" + body.conversationId);
       } else {
         console.log(`statusCode: ${res.statusCode}`);
       }
