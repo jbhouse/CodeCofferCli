@@ -169,7 +169,7 @@ function synchronizeFilesWithSnippet(
   }
 }
 
-function exportSnippet(snippet) {
+function exportSnippet(snippet) {// move to seperate file
   request.post(
     exportUrl,
     {
