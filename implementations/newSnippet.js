@@ -90,10 +90,10 @@ function exportSnippet(snippet) {
                 return;
             }
             if (res.statusCode === 200) {
-                console.log(
-                    "https://jayckers.com/snippet/en/#/import/" + body.conversationId
-                );
-                clipboardy.writeSync("https://jayckers.com/snippet/en/#/import/" + body.conversationId);
+                let serverUrl = "https://jayckers.com/snippet/en/#/import/" + body.conversationId;
+                console.log(serverUrl);
+                clipboardy.writeSync(serverUrl);
+                require('./importSnippet.js').importSnippet("import " + serverUrl);
             } else {
                 console.log(`statusCode: ${res.statusCode}`);
             }
